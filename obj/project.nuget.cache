@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "EEdrt7eNk5k=",
+  "success": true,
+  "projectFilePath": "/Users/chamakapiyumal/Developer/DealManagementSystem/DealManagementSystem.csproj",
+  "expectedPackageFiles": [
+    "/Users/chamakapiyumal/.nuget/packages/microsoft.aspnetcore.openapi/10.0.3/microsoft.aspnetcore.openapi.10.0.3.nupkg.sha512",
+    "/Users/chamakapiyumal/.nuget/packages/microsoft.openapi/2.0.0/microsoft.openapi.2.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
