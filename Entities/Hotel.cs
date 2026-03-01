@@ -12,6 +12,7 @@ namespace DealManagementSystem.Entities
 
         public int DealId { get; set; }   // Foreign Key
 
-        public Deal Deal { get; set; } = null!;
+        [System.Text.Json.Serialization.JsonIgnore]
+        public Deal? Deal { get; set; }
     }
 }
