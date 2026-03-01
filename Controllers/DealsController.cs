@@ -37,5 +37,24 @@ namespace DealManagementSystem.Controllers
 
             return CreatedAtAction(nameof(GetAll), new { id = deal.Id }, deal);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteHotel(int id)
+        {
+            var hotel = await _context.Hotels.FindAsync(id);
+            if (hotel == null)
+                return NotFound();
+
+            var hotelCount = await _context.Hotels
+                .CountAsync(h => h.DealId == hotel.DealId);
+
+            if (hotelCount <= 1)
+                return BadRequest("A deal must have at least one hotel.");
+
+            _context.Hotels.Remove(hotel);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
     }
 }
