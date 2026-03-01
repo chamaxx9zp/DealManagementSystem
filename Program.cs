@@ -7,8 +7,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddControllers()
-    .AddFluentValidation();
+builder.Services.AddControllers();
+
+builder.Services.AddFluentValidationAutoValidation()
+    .AddFluentValidationClientsideAdapters();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
