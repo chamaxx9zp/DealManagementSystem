@@ -1,4 +1,6 @@
 using DealManagementSystem.Data;
+using DealManagementSystem.Validators;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using FluentValidation.AspNetCore;
 
@@ -11,6 +13,8 @@ builder.Services.AddControllers();
 
 builder.Services.AddFluentValidationAutoValidation()
     .AddFluentValidationClientsideAdapters();
+
+builder.Services.AddValidatorsFromAssemblyContaining<DealValidator>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
