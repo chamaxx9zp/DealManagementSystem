@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DealManagementSystem.Data;
 using DealManagementSystem.Entities;
+using DealManagementSystem.Validators;
+using FluentValidation;
 
 namespace DealManagementSystem.Controllers
 {
@@ -10,10 +12,12 @@ namespace DealManagementSystem.Controllers
     public class DealsController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly IValidator<Hotel> _hotelValidator;
 
-        public DealsController(AppDbContext context)
+        public DealsController(AppDbContext context, IValidator<Hotel> hotelValidator)
         {
             _context = context;
+            _hotelValidator = hotelValidator;
         }
 
         [HttpGet]
@@ -167,6 +171,10 @@ namespace DealManagementSystem.Controllers
             if (deal == null)
                 return NotFound();
 
+            var validationResult = await _hotelValidator.ValidateAsync(hotel);
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
+
             hotel.DealId = dealId;
 
             _context.Hotels.Add(hotel);
@@ -183,6 +191,12 @@ namespace DealManagementSystem.Controllers
 
             if (hotel == null)
                 return NotFound();
+
+            if (string.IsNullOrWhiteSpace(updatedHotel.Name))
+                return BadRequest("Hotel name is required.");
+
+            if (updatedHotel.Rate < 1.0m || updatedHotel.Rate > 5.0m)
+                return BadRequest("Rate must be between 1.0 and 5.0.");
 
             hotel.Name = updatedHotel.Name;
             hotel.Rate = updatedHotel.Rate;
